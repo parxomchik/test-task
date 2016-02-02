@@ -2,10 +2,15 @@
         .module('myTestApp',[])
         .controller('testController',TestController)
         .factory('testFactory',TestFactory)
-        .directive('testDirective',TestDirective);
+        .service('testService',TestService)
+        .directive('testDirective',TestDirective)
+        .constant('testConstant',{
+            "url" : "factory.json"
+        });
 
-    TestController.$inject = ['testFactory'];
-    function TestController(factory){
+
+    TestController.$inject = ['testFactory','testService'];
+    function TestController(factory,testService){
         var vm = this;
 
         vm.title = 'myTitle';
@@ -15,20 +20,41 @@
 
             })
             .error(function(data){
+
             });
+       vm.serviceData =  testService.getPrivate();
+            //.success(function(data){
+            //   vm.serviceData = data;
+            //});
+        //service.getData()
+        //    .success(function(data){
+        //        vm.serviceData = data;
+        //    })
+
     }
 
-    TestFactory.$inject = ['$http'];
-    function TestFactory($http){
+    TestFactory.$inject = ['$http','testConstant'];
+    function TestFactory($http,testConstant){
         return {
             getData: function () {
                 return $http({
                     method: 'GET',
-                    url: 'factory.json'
+                    url: testConstant.url
                 })
             }
 
         };
+    }
+
+    function TestService(){
+
+        var PrivateData = "PrivateData";
+        this.variable = "This is public";
+
+        this.getPrivate = function() {
+            return PrivateData;
+        };
+
     }
 
 
