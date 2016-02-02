@@ -23,13 +23,7 @@
 
             });
        vm.serviceData =  testService.getPrivate();
-            //.success(function(data){
-            //   vm.serviceData = data;
-            //});
-        //service.getData()
-        //    .success(function(data){
-        //        vm.serviceData = data;
-        //    })
+
 
     }
 
