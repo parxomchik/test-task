@@ -4,12 +4,12 @@
         .factory('testFactory',TestFactory)
         .directive('testDirective',TestDirective);
 
-
-    function TestController(testFactory){
+    TestController.$inject = ['testFactory'];
+    function TestController(factory){
         var vm = this;
 
         vm.title = 'myTitle';
-        testFactory.getData()
+        factory.getData()
             .success(function(data){
                 vm.factoryData = data.data;
 
@@ -18,7 +18,7 @@
             });
     }
 
-
+    TestFactory.$inject = ['$http'];
     function TestFactory($http){
         return {
             getData: function () {
